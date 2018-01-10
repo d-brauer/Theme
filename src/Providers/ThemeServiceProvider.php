@@ -3,7 +3,6 @@
 namespace Theme\Providers;
 
 use IO\Helper\TemplateContainer;
-use IO\Helper\ComponentContainer;
 use Plenty\Plugin\Events\Dispatcher;
 use Plenty\Plugin\ServiceProvider;
 use Plenty\Plugin\Templates\Twig;
@@ -24,12 +23,10 @@ class ThemeServiceProvider extends ServiceProvider
 	 */
 	public function boot(Twig $twig, Dispatcher $eventDispatcher)
     {
-        $eventDispatcher->listen('IO.Component.Import', function (ComponentContainer $container)
+        $eventDispatcher->listen('IO.tpl.basket', function(TemplateContainer $container, $templateData)
         {
-            if ($container->getOriginComponentTemplate()=='Ceres::Item.Components.SingleItem')
-            {
-                $container->setNewComponentTemplate('Theme::content.SingleItem');
-            }
-        }, self::PRIORITY);
+            $container->setTemplate('Theme::content.ThemeBasket');
+            return false;
+        }, 0);
     }
 }
